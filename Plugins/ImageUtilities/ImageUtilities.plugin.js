@@ -9,7 +9,7 @@
  * @patreon https://www.patreon.com/MircoWittrien
  * @website https://mwittrien.github.io/
  * @source https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/ImageUtilities/
- * @updateUrl https://mwittrien.github.io/BetterDiscordAddons/Plugins/ImageUtilities/ImageUtilities.plugin.js
+ * @updateUrl https://affandhia.github.io/BetterDiscordAddons/Plugins/ImageUtilities/ImageUtilities.plugin.js
  */
 
 module.exports = (_ => {
@@ -535,9 +535,11 @@ module.exports = (_ => {
 					if (e.instance.props.attachment) this.injectItem(e, e.instance.props.attachment.url);
 					else if (e.instance.props.target.tagName == "A" && e.instance.props.message.embeds && e.instance.props.message.embeds[0] && (e.instance.props.message.embeds[0].type == "image" || e.instance.props.message.embeds[0].type == "video")) this.injectItem(e, e.instance.props.target.href);
 					else if (e.instance.props.target.tagName == "IMG") {
+						let sticker = BDFDB.DOMUtils.getParent(BDFDB.dotCN.messageaccessory, e.instance.props.target);
 						if (BDFDB.DOMUtils.containsClass(e.instance.props.target.parentElement, BDFDB.disCN.imagewrapper)) this.injectItem(e, {file: e.instance.props.target.src, original: this.getTargetLink(e.instance.props.target)});
 						else if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.embedauthoricon) && this.settings.places.userAvatars) this.injectItem(e, e.instance.props.target.src);
 						else if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.emojiold, "emote", false) && this.settings.places.emojis) this.injectItem(e, e.instance.props.target.src);
+						else if (sticker && this.settings.places.emojis) this.injectItem(e, e.instance.props.target.src);
 					}
 					else if (e.instance.props.target.tagName == "VIDEO") {
 						if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.embedvideo) || BDFDB.DOMUtils.getParent(BDFDB.dotCN.attachmentvideo, e.instance.props.target)) this.injectItem(e, {file: e.instance.props.target.src, original: this.getTargetLink(e.instance.props.target)});
